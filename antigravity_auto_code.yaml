@@ -24,13 +24,10 @@ analysis:
   code_complexity:
     low:
       signals: [snippet, demo, 示例, 简单]
-
     medium:
       signals: [新增功能, 重构, 优化]
-
     high:
       signals: [bug, 修复, 异常, 并发]
-
     extreme:
       signals: [核心逻辑, 绝对正确]
 
@@ -38,11 +35,9 @@ modes:
   fast:
     temperature: 0.7
     models: [gemini_fast]
-
   balanced:
     temperature: 0.4
     models: [claude_balanced]
-
   strict:
     temperature: 0.15
     models: [gpt_strict]
@@ -52,17 +47,14 @@ auto_select:
   - when:
       agent_mode: ask
     use: fast
-
   - when:
       agent_mode: agent
       code_complexity: low
     use: fast
-
   - when:
       agent_mode: agent
       code_complexity: medium
     use: balanced
-
   - when:
       agent_mode: debug
     use: strict
@@ -84,6 +76,20 @@ planning_policy:
   stop_on_ambiguity: false
   output:
     language: zh-CN
+
+agent_policy:
+  default_language: zh-CN
+  force_response_language: true
+  system_prompt_suffix: |
+    你是 Antigravity 的自动执行代理。
+    所有分析、解释、结论、总结必须使用【简体中文】输出。
+    即使工具、系统日志、命令返回英文，也必须翻译并用中文说明。
+    不允许直接向用户输出英文解释。
+
+execution_policy:
+  translate_tool_output: true
+  translate_system_logs: true
+  translation_target_language: zh-CN
 
 execution_resilience:
   never_abort_on_quota: true
